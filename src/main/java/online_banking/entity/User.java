@@ -3,19 +3,18 @@ package online_banking.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.*;
-import org.springframework.data.annotation.Id;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Getter
-@Setter
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public String id;
+    private Long id;
 
     @NotEmpty
     public String firstName;
@@ -25,20 +24,31 @@ public class User {
     @NotEmpty
     public String lastName;
 
+    @NotEmpty
+    private String password;
+
     @Email
-    @Column(unique = true)
     @NotEmpty
-    public String email;
-
     @Column(unique = true)
-    @NotEmpty
-    public String phoneNumber;
+    private String email;
 
+    @NotEmpty
+    private String countryCode;
+
+    @NotEmpty
     @Column(unique = true)
-    @NotEmpty
-    public String address;
+    private String phoneNumber;
 
-    // Establishing a one-to-one relationship with the account
+    @NotEmpty
+    private String address;
+
+    /**
+     * Establishing a one-to-one relationship with the account
+     * So user can login with :
+     * - Account number + password
+     * - Email + password
+     */
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Account account;
 }
